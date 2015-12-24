@@ -14,10 +14,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>YYWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>C58E02759A8F1896E05B474A48700A51</key>
+		<key>82D3EF0084976ECD75F2C7537E094688</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>850872DB3A39C6910A6DA68523BD7644</key>
 		<dict>
 			<key>primary</key>
 			<true/>

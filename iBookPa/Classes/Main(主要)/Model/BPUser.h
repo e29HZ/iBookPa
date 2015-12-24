@@ -22,7 +22,7 @@
 /**
  *  用户性别
  */
-@property(nonatomic,getter=isGender)BOOL gender;
+@property(nonatomic, assign) NSNumber *gender;
 /**
  *  生日
  */

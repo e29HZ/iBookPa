@@ -10,11 +10,6 @@
 
 @implementation BPUser
 
-
-
-
 InitM(user);
-
-
 
 @end

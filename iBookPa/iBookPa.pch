@@ -18,6 +18,7 @@
 #import "UIView+Extension.h"
 #import "UIBarButtonItem+Extension.h"
 #import "BPUser.h"
+#import <YYWebImage.h>
 
 #ifdef DEBUG // 调试状态, 打开LOG功能
 #define BPLog(...) NSLog(__VA_ARGS__)

@@ -15,6 +15,8 @@ pod 'AVOSCloudCrashReporting', '~> 3.1.6.7'
 
 pod 'MBProgressHUD', '~> 0.9.1'
 
+pod 'YYWebImage', '~> 0.9.11'
+
 end
 
 target 'iBookPaTests' do

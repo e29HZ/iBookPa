@@ -18,97 +18,182 @@
  */
 @property (nonatomic, strong) UIAlertController *askAlertSheet;
 
-@property (strong, nonatomic) NSArray *statuss;
-@property (strong, nonatomic) NSArray *users;
+@property (strong, nonatomic) NSMutableArray *statuses;
+//@property (nonatomic, copy) NSString *userID;
+
+@property (nonatomic, strong) NSString *statusCategory;
+
+//@property (strong, nonatomic) NSArray *users;
 @end
 
 @implementation BPHomeTableViewController
 
 
 #pragma mark - 懒加载
-- (NSArray *)statuss
+- (NSMutableArray *)statuses
 {
-    if (_statuss == nil) {
-        //1.获取全路径
-        NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"home.plist" ofType:nil];
-        //2.根据去路径加载数据
-        NSArray *dictArray = [NSArray arrayWithContentsOfFile:fullPath];
-        //3.字典转模型
-        NSMutableArray  *models = [NSMutableArray arrayWithCapacity:dictArray.count];
-        for (NSDictionary *dict in dictArray) {
-            BPStatus *status = [BPStatus statusWithDict:dict];
-            [models addObject:status];
-        }
-        self.statuss = [models copy];
+    if (_statuses == nil) {
+        _statuses = [NSMutableArray array];
     }
-    return _statuss;
+    return _statuses;
 }
-- (NSArray *)bpusers
-{
-    if ( _users == nil) {
-        //1.获取全路径
-        NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"home.plist" ofType:nil];
-        //2.根据去路径加载数据
-        NSArray *dictArray = [NSArray arrayWithContentsOfFile:fullPath];
-        //3.字典转模型
-        NSMutableArray  *models = [NSMutableArray arrayWithCapacity:dictArray.count];
-        for (NSDictionary *dict in dictArray) {
-            BPUser *user = [BPUser userWithDict:dict];
-            [models addObject:user];
-        }
-        self.users = [models copy];
-    }
-    return _users;
-}
+//- (NSArray *)bpusers
+//{
+//    if ( _users == nil) {
+//        //1.获取全路径
+//        NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"home.plist" ofType:nil];
+//        //2.根据去路径加载数据
+//        NSArray *dictArray = [NSArray arrayWithContentsOfFile:fullPath];
+//        //3.字典转模型
+//        NSMutableArray  *models = [NSMutableArray arrayWithCapacity:dictArray.count];
+//        for (NSDictionary *dict in dictArray) {
+//            BPUser *user = [BPUser userWithDict:dict];
+//            [models addObject:user];
+//        }
+//        self.users = [models copy];
+//    }
+//    return _users;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     //设置导航栏按钮
-   
+    
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImageName:@"icon-mainview-create" highlightImageName:@"icon-mainview-create-highlight" target:self action:@selector(createActivity) event:@" 发布"];
     self.navigationItem.leftBarButtonItem  = [UIBarButtonItem itemWithImageName:@"icon-mainview-location" highlightImageName:@"icon-mainview-location-highlight" target:self action:@selector(locationPosition) event:@" 定位"];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
-
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return  20;
+    
+    return  1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 210;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    //1.创建cell
-//    BPHomeTableViewCell *homeTableCell = [BPHomeTableViewCell cellWithTableView:tableView];
-//    
-//    //2.设置数据
-//    BPStatus *status = self.statuss[indexPath.row];
-//    homeTableCell.status = status;
-//    
-//    //3.返回cell
-//    return homeTableCell;
+    //1.创建cell
+    BPHomeTableViewCell *cell = [BPHomeTableViewCell cellWithTableView:tableView];
     
-    static NSString *ID = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+    //2.设置数据
+    AVQuery *query = [AVQuery queryWithClassName:@"Activities"];
+    //    [query whereKey:@"objectId" notEqualTo:@"0"];
+    BPLog(@"%@",query);
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // 检索成功
+            NSLog(@"Successfully retrieved %lu posts.", (unsigned long)objects.count);
+        } else {
+            // 输出错误信息
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    
+    AVObject *activities = [query getObjectWithId:@"565690ce60b20fc9af96d9a0"];
+    BPStatus *status = [[BPStatus alloc] init];
+    status.title = [activities objectForKey:@"title"];
+    status.remark = [activities objectForKey:@"remark"];
+    status.place = [activities objectForKey:@"place"];
+    status.target = (int)[activities objectForKey:@"target"];
+    status.endTime = [activities objectForKey:@"endTime"];
+    status.type = (NSNumber *)[activities objectForKey:@"type"];
+    BPLog(@"%@",status.type);
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    // 为日期格式器设置格式字符串
+    [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+    // 使用日期格式器格式化日期、时间
+    NSString *endTime = [dateFormatter stringFromDate:status.endTime];
+    
+    AVObject *avUser = [activities objectForKey:@"owner"];
+    BPUser *owner = [[BPUser alloc] init];
+    NSString *objID = avUser.objectId;
+    AVQuery *avQuery = [AVQuery queryWithClassName:@"_User"];
+    AVObject *auser = [avQuery getObjectWithId:objID];
+    owner.nickname = [auser objectForKey:@"nickname"];
+    owner.avatarUrl = [auser objectForKey:@"avatarUrl"];
+    owner.gender = (NSNumber *)[auser objectForKey:@"gender"];
+    owner.birth = [auser objectForKey:@"birth"];
+    NSDateFormatter *ageDateFormatter = [[NSDateFormatter alloc] init];
+    // 为日期格式器设置格式字符串
+    [ageDateFormatter setDateFormat:@"yyyy"];
+    // 使用日期格式器格式化日期、时间
+    NSString *brithDate = [ageDateFormatter stringFromDate:owner.birth];
+    int brithInt = [brithDate intValue];
+    int ageInt = 2016 - brithInt;
+    NSString *age = [NSString stringWithFormat:@"%d", ageInt];
+    [cell.sexBtn setTitle:age forState:UIControlStateNormal];
+    
+    BPLog(@"%@", owner.gender);
+    owner.birth = [auser objectForKey:@"brith"];
+    cell.topicLabel.text = status.remark;
+    if ([owner.gender isEqual: [NSNumber numberWithInt:1]]) {
+        [cell.sexBtn setBackgroundColor:[UIColor blueColor]];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"首页测试数据----%ld", (long)indexPath.row];
+    else if ([owner.gender isEqual: [NSNumber numberWithInt:2] ])
+    {
+        [cell.sexBtn setBackgroundColor:[UIColor redColor]];
+    }
+    else{
+        [cell.sexBtn setBackgroundColor:[UIColor yellowColor]];
+    }
+    cell.remarkLabel.text =status.title;
+    cell.placeLabel.text = status.place;
+    /**
+     *  对象,15007 仅限男生，15008 仅限女生，15009 男女不限
+     */
+    if (status.target == 15007) {
+        cell.targetLabel.text = @"仅限男生";
+    }
+    else if(status.target == 15008)
+    {
+        cell.targetLabel.text = @"仅限男生";
+    }
+    else
+    {
+        cell.targetLabel.text = @"男女不限";
+    }
+    
+    cell.endtimeLabel.text = endTime;
+    
+    if ([status.type  isEqual: [NSNumber numberWithInt:15001]]) {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryRead];
+    }
+    else if ([status.type  isEqual: [NSNumber numberWithInt:15002]])
+    {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryStudy];
+    }
+    else if ([status.type  isEqual: [NSNumber numberWithInt:15003]])
+    {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryFindFriend];
+    }
+    else if ([status.type  isEqual: [NSNumber numberWithInt:15004]])
+    {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryExchangeBooks];
+    }
+    else if ([status.type  isEqual: [NSNumber numberWithInt:15005]])
+    {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryAskForBooks];
+    }
+    else
+    {
+        cell.typeLabel.text = [BPStatus statusCategoryNameStringWithStatusCategory:BPStatusCategoryAskForTeaching];
+    }
+    
+    
+    cell.iconImage.yy_imageURL = [NSURL URLWithString:owner.avatarUrl];
+    cell.nicknameLabel.text = owner.nickname;
+    //3.返回cell
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"%@", self.navigationController);
+    //    NSLog(@"%@", self.navigationController);
     UIViewController *newVc = [[UIViewController alloc] init];
     newVc.view.backgroundColor = [UIColor redColor];
     newVc.title = @"新控制器";
@@ -158,7 +243,7 @@
     
     [alertViewController addAction:[UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // 创建发布新鲜事儿的 ViewController
-  
+        
         BPCreateActivityTableViewController *createActivityvc = [[BPCreateActivityTableViewController alloc] init];
         createActivityvc.statusCategory = [BPStatus statusCategoryNameStringWithStatusCategory:category];
         

@@ -24,15 +24,14 @@ InitM(status);
     return arrayM;
 }
 
-
 + (NSString *)statusCategoryNameStringWithStatusCategory:(BPStatusCategory)category {
     NSString *str = [NSString stringWithFormat:@"%d", category];
-    NSDictionary *dict = @{@"0" : @"陪读书",
-                           @"1" : @"去自习",
-                           @"2" : @"找书友",
-                           @"3" : @"换本书",
-                           @"4" : @"求教材",
-                           @"5" : @"求补课"};
+    NSDictionary *dict = @{@"15001" : @"陪读书",
+                           @"15002" : @"去自习",
+                           @"15003" : @"找书友",
+                           @"15004" : @"换本书",
+                           @"15005" : @"求教材",
+                           @"15006" : @"求补课"};
     return dict[str];
 }
 

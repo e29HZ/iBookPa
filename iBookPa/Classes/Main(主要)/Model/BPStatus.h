@@ -14,7 +14,7 @@
  活动种类的枚举
  */
 typedef enum BPStatusCategory{
-	BPStatusCategoryRead = 0,		//陪读书
+	BPStatusCategoryRead = 15001,		//陪读书
 	BPStatusCategoryStudy,			//陪自习
 	BPStatusCategoryFindFriend,		//找书友
 	BPStatusCategoryExchangeBooks,	//换本书
@@ -26,13 +26,6 @@ typedef enum BPStatusCategory{
 
 @interface BPStatus : NSObject
 
-@property (nonatomic, strong) BPStatus *status;
-
-/**
- *  唯一Id
- */
-@property (nonatomic, copy) NSString *objId;
-
 /**
  *  发布者
  */
@@ -40,7 +33,7 @@ typedef enum BPStatusCategory{
 /**
  *  类型，活动类型，15001 陪看书，15002 去自习，15003 找书友，15004 换本书，15005 求教材，15006 求补课
  */
-@property (nonatomic, assign) int type;
+@property (nonatomic, assign) NSNumber *type;
 /**
  *  主题
  */
@@ -49,7 +42,7 @@ typedef enum BPStatusCategory{
 /**
  *  对象,15007 仅限男生，15008 仅限女生，15009 男女不限
  */
-@property (nonatomic, assign) int target;
+@property (nonatomic, assign) long target;
 /**
  *  结束时间
  */
@@ -84,7 +77,7 @@ typedef enum BPStatusCategory{
 
 InitH(status);
 
-+ (NSArray *)status;
+//+ (NSArray *)status;
 
 /**
  *  根据活动的种类返回种类的字符串

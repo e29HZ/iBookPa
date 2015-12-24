@@ -84,15 +84,15 @@
     
     NSString *phoneNumber = self.cellPhone.text;
     NSString *confirmPwd = self.confirmPwd.text;
-    NSString *smsCode = self.identifyingCode.text;
+//    NSString *smsCode = self.identifyingCode.text;
     BPUser *bpuser = [[BPUser alloc] init];
     AVUser *tempuser = [AVUser user];
     bpuser.avuser = tempuser;
     //    判断短信验证码是否正确
-    [AVOSCloud verifySmsCode:smsCode mobilePhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError *error) {
-        if ([self filterError:error]) {
-            BPLog(@"验证成功，手机号码为 %@，验证码为 %@", phoneNumber, smsCode);
-            
+//    [AVOSCloud verifySmsCode:smsCode mobilePhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError *error) {
+//        if ([self filterError:error]) {
+//            BPLog(@"验证成功，手机号码为 %@，验证码为 %@", phoneNumber, smsCode);
+    
             //上传用户账号和密码到服务器
             
             bpuser.username = phoneNumber;
@@ -115,8 +115,8 @@
                 
                 [self presentViewController:nv animated:YES completion:nil];
             }];
-        }
-    }];
+//        }
+//    }];
     
 }
 

@@ -12,11 +12,11 @@
 #import "BPNavigationController.h"
 #import "BPInputInfoViewController.h"
 
-#define AVOSCloudAppID  @"gCvmQwyvTmkYkqq8YH075log-gzGzoHsz"  //自己的
-#define AVOSCloudAppKey @"4c1rT0oxNpE2UsXBEP2aTJ87"
+//#define AVOSCloudAppID  @"gCvmQwyvTmkYkqq8YH075log-gzGzoHsz"  //自己的
+//#define AVOSCloudAppKey @"4c1rT0oxNpE2UsXBEP2aTJ87"
 
-//#define AVOSCloudAppID  @"MdAPK8e8ncw2okkw4BwNLkWT"  //公共
-//#define AVOSCloudAppKey @"bSAQ2wAJ25b5S8PtDSz7D7bi"
+#define AVOSCloudAppID  @"tOREcTpW0qzXJuKBzCBUhJw9"  //公共
+#define AVOSCloudAppKey @"bSAQ2wAJ25b5S8PtDSz7D7bi"
 
 @interface AppDelegate ()
 
@@ -47,30 +47,7 @@
     self.window.rootViewController = nv;
     //3.显示窗口(成为主窗口)
     [self.window makeKeyAndVisible];
-    
-    //4.监控网络
-    //    AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
-    //    [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-    //        switch (status) {
-    //            case AFNetworkReachabilityStatusUnknown:
-    //                BPLog(@"未知网络");
-    //                break;
-    //            case AFNetworkReachabilityStatusNotReachable:
-    //                BPLog(@"没有网络");
-    //                break;
-    //            case AFNetworkReachabilityStatusReachableViaWWAN:
-    //                BPLog(@"手机网络");
-    //                break;
-    //            case AFNetworkReachabilityStatusReachableViaWiFi:
-    //                BPLog(@"WiFi");
-    //                break;
-    //            default:
-    //                break;
-    //        }    }];
-    //
-    //    [mgr startMonitoring];
-    
-    // 输出内部日志，发布时记得关闭
+    // 输出内部日志
 #ifdef DEBUG
     [AVOSCloud setAllLogsEnabled:YES];
 #endif
