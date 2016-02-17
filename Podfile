@@ -17,6 +17,8 @@ pod 'MBProgressHUD', '~> 0.9.1'
 
 pod 'YYWebImage', '~> 0.9.11'
 
+pod 'MJExtension', '~> 3.0.8'
+
 end
 
 target 'iBookPaTests' do

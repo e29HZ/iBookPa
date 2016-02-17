@@ -5,6 +5,7 @@ PODS:
   - AVOSCloudIM (3.1.6.8):
     - AVOSCloud
   - MBProgressHUD (0.9.1)
+  - MJExtension (3.0.8)
   - YYWebImage (0.9.11)
 
 DEPENDENCIES:
@@ -12,6 +13,7 @@ DEPENDENCIES:
   - AVOSCloudCrashReporting (~> 3.1.6.7)
   - AVOSCloudIM (~> 3.1.6.7)
   - MBProgressHUD (~> 0.9.1)
+  - MJExtension (~> 3.0.8)
   - YYWebImage (~> 0.9.11)
 
 SPEC CHECKSUMS:
@@ -19,6 +21,7 @@ SPEC CHECKSUMS:
   AVOSCloudCrashReporting: 89016caa9610a5d406f69402ab63e978872dc676
   AVOSCloudIM: a32d9d66d09eff110b3b29f371e7ef2979b11c9c
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MJExtension: 12d2875959b4a0f936ae86b22a1eb6b0251c50ba
   YYWebImage: a65b28461dc63d3b84de7c06ea0fbc4d46cdcd16
 
 COCOAPODS: 0.39.0

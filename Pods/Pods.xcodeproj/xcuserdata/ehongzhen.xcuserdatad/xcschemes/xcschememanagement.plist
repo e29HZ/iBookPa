@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MJExtension.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-iBookPa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,12 +27,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>82D3EF0084976ECD75F2C7537E094688</key>
+		<key>4A49D44101F0459D4B190625E1D399B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>850872DB3A39C6910A6DA68523BD7644</key>
+		<key>B23B3D15FFC0FC9893968F478086D58D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F98D0BD6A0B9825FE8B9642AD2A7D221</key>
 		<dict>
 			<key>primary</key>
 			<true/>
